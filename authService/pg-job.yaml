@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pg-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: pg-guardian
+        image: energy1971/pg-guargian-app
+        envFrom:
+        - secretRef:
+             name: pg-secret
+        - configMapRef:
+             name: pg-cm
+      restartPolicy: OnFailure

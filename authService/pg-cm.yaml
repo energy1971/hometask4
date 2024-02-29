@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-cm
+data:
+  PG_HOST: "postgresql-dev-hl"
+  PG_DB_NAME: "postgres"

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-service
+  labels:
+    app: myapp-service
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      env: myapp
+  template:
+    metadata:
+      labels:
+        env: myapp
+    spec:
+      containers:
+      - name: my-app
+        image: energy1971/my-app:latest
+        env:
+        # Define the environment variable
+        - name: PG_HOST              # Notice that the case is different here
+                                     # from the key name in the ConfigMap.
+          valueFrom:
+            configMapKeyRef:
+              name: myapp-cm             # The ConfigMap this value comes from.
+              key: PG_HOST              # The key to fetch.
+        - name: PG_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: myapp-cm
+              key: PG_DB_NAME
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secret
+              key: PG_USER
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secret
+              key: PG_PASSWORD
+        ports:
+        - name: myapp-port
+          containerPort: 8000     

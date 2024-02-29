@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth-ingress
+spec:
+  rules:
+  - host: arch.homework
+    http:
+      paths:
+        - path: /login
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port: 
+                name: auth
+        - path: /signin
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port:
+                name: auth
+        - path: /logout
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port: 
+                name: auth
+        - path: /register
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port: 
+                name: auth
+        - path: /auth
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port:
+                name: auth
